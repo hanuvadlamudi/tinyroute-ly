@@ -22,7 +22,7 @@ app.use(cors({
 
 app.use(express.json());
 
-// ✅ Vercel-safe DB connection
+// ✅ DB connect once per cold start
 let isConnected = false;
 app.use(async (req, res, next) => {
   if (!isConnected) {
@@ -40,5 +40,5 @@ app.get("/:id", redirectFromShortUrl);
 
 app.use(errorHandler);
 
-// ✅ REQUIRED for Vercel
-module.exports = app;
+
+export default app;
