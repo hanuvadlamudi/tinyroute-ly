@@ -30,10 +30,10 @@ app.use(cors({
 
 app.use(express.json());
 
-app.listen(8080, () => {
-  connectDB();
-  console.log("hello http://localhost:8080");
-});
+// app.listen(8080, () => {
+//   connectDB();
+//   console.log("hello http://localhost:8080");
+// });
 
 app.use("/api/create", shortenUrl_routes);
 app.use("/api/auth", auth_routes);
