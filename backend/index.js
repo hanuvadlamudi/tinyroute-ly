@@ -15,24 +15,21 @@ const app = express();
 
 app.use(cookieParser());
 
-
-// app.use(cors({
-//   origin: process.env.APP_URL,
-//   credentials: true
-// }));
-
-
 app.use(cors({
-  origin: true,
-  credentials: true
+  origin: true,
+  credentials: true
 }));
-
 
 app.use(express.json());
 
-app.listen(8080, () => {
-  connectDB();
-  console.log("hello http://localhost:8080");
+// ✅ DB connect once per cold start
+let isConnected = false;
+app.use(async (req, res, next) => {
+  if (!isConnected) {
+    await connectDB();
+    isConnected = true;
+  }
+  next();
 });
 
 app.use("/api/create", shortenUrl_routes);
@@ -42,3 +39,6 @@ app.use("/api/user", user_routes);
 app.get("/:id", redirectFromShortUrl);
 
 app.use(errorHandler);
+
+
+export default app;
